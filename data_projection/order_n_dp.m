@@ -1,3 +1,5 @@
+%   ORDER N INITIAL CONDITION DATA PROJECTION
+
 
 function Phi = order_n_dp(x, n)
 
@@ -5,61 +7,61 @@ function Phi = order_n_dp(x, n)
     global eta_0 u_0
     global x_res t_res Xf g td
 
+    % Initial eta and u arrays at t=0
     eta0 = zeros(1,x_res);
     eta0(1:x_res) = eta_0(x);
-
     u0 = zeros(1,x_res);
     u0(1:x_res) = u_0(x);
 
-    % computing sigma(x) at t=0
+    % Computing sigma(x) at t=0
     s0 = x+eta0;
 
-    % interpolating
+    % Interpolating inverse function of sigma -> gamma(sigma)
     gs0Cheb = chebfun.interp1(s0(1,:),x(1,:), 'pchip');
+    gs0 = gs0Cheb(x(1,:));      % evaluating at x
+
+    % Interpolating u0(x) and eta0(x)
     u0Cheb = chebfun.interp1(x(1,:),u0(1,:),'pchip');
     eta0Cheb = chebfun.interp1(x(1,:),eta0(1,:),'pchip');
-    gs0 = gs0Cheb(x(1,:));
-
-    % evaluating u0(gamma(sigma)) and eta0(gamma(sigma))
-    u0gs = u0Cheb(gs0);
+    u0gs = u0Cheb(gs0);        % evaluating at gamma(sigma)
     eta0gs = eta0Cheb(gs0);
 
+    % Interpolating sigma(u0gs) and sigma(eta0gs)
     eta0gsCheb = chebfun.interp1(s0(1,:),eta0gs(1,:),'pchip');
     u0gsCheb = chebfun.interp1(s0(1,:),u0gs(1,:),'pchip');
 
-    Phi0TCheb = u0gsCheb;
-    Phi0BCheb = eta0gsCheb+0.5*u0gsCheb.^2;
-    Phi0T = Phi0TCheb(gs0);
-    Phi0B = Phi0BCheb(gs0);
-
-    % derivative of Phi0T
-    dPhi0TdsCheb = diff(Phi0TCheb);
+    % Creating Phi0 vector
+    Phi0TCheb = u0gsCheb;                       % top component (phi)
+    Phi0BCheb = eta0gsCheb+0.5*u0gsCheb.^2;     % bottom component (psi)
+    dPhi0TdsCheb = diff(Phi0TCheb);             % derivatives with respect to sigma
     dPhi0BdsCheb = diff(Phi0BCheb);
-    dPhi0Tds = dPhi0TdsCheb(gs0);
-    dPhi0Bds = dPhi0BdsCheb(gs0);
+    Phi0T = Phi0TCheb(gs0);                     % evaluating Psi0T at gamma(sigma)
+    Phi0B = Phi0BCheb(gs0);                     % evaluating Psi0B at gamma(sigma)
+    dPhi0Tds = dPhi0TdsCheb(gs0);               % evaluating dPsi0Tds at gamma(sigma)
+    dPhi0Bds = dPhi0BdsCheb(gs0);               % evaluating dPsi0Bds at gamma(sigma)
 
 
-    % creating and inverting matrix D
+    % Creating and inverting matrix D
     one = repelem(1,x_res);
-    invD = zeros(4,x_res);
+    InvD = zeros(4,x_res);
     for i=1:x_res
       matrixD = [one(i),dPhi0Tds(i);s0(i)*dPhi0Tds(i),one(i)];
-      invD = inv(matrixD);
-      invLT(1,i) = invD(1,1);                   % left-top element
-      invRT(1,i) = invD(1,2);                   % right-top element
-      invLB(1,i) = invD(2,1);                   % left-bottom element
-      invRB(1,i) = invD(2,2);                   % right-bottom element
-      invD = [invLT;invRT;invLB;invRB];         % inverted matrix D (4xM matrix)
+      InvD = inv(matrixD);
+      InvLT(1,i) = InvD(1,1);                   % left-top element
+      InvRT(1,i) = InvD(1,2);                   % right-top element
+      InvLB(1,i) = InvD(2,1);                   % left-bottom element
+      InvRB(1,i) = InvD(2,2);                   % right-bottom element
+      InvD = [InvLT;InvRT;InvLB;InvRB];         % inverted matrix D (4xM matrix)
     end
 
     % empty arrays
-    FkTsave = zeros(n,x_res);         % store F_k top
-    FkBsave = zeros(n,x_res);         % store F_k bottom
-    FkTds = zeros(1,x_res);           % derivative top
-    FkBds = zeros(1,x_res);           % derivative bottom
-    sumStoreT = zeros(n,x_res);       % storing sum for each K value
-    sumStoreB = zeros(n,x_res);
-    Phi_nT = zeros(1,x_res);          % solution arrays
+    FkTStore = zeros(n,x_res);         % store F_k top
+    FkBStore = zeros(n,x_res);         % store F_k bottom
+    FkTds = zeros(1,x_res);            % derivative top
+    FkBds = zeros(1,x_res);            % derivative bottom
+    SumT = zeros(n,x_res);             % storing sum for each K value
+    SumB = zeros(n,x_res);
+    Phi_nT = zeros(1,x_res);           % solution arrays
     Phi_nB = zeros(1,x_res);
 
     % initializing FkT
@@ -67,25 +69,25 @@ function Phi = order_n_dp(x, n)
 
     % main loop
     for i=1:n
-      term1 = ((Phi0T).^i)/factorial(i);
-      FkTds = dPhi0Tds;
+      Term1 = ((Phi0T).^i)/factorial(i);        % non-recursive term
+      FkTds = dPhi0Tds;                         % derivatives of F_k vector
       FkBds = dPhi0Bds;
-      kphi = i*FkT;
-      nDinv_Fk = [FkTds;kphi+FkBds];
-      FkT = invD(1,:).*nDinv_Fk(1,:)+invD(2,:).*nDinv_Fk(2,:);
-      FkB = invD(3,:).*nDinv_Fk(1,:)+invD(4,:).*nDinv_Fk(2,:);
-      FkTsave(i,:) = FkT;
-      FkBsave(i,:) = FkB;
-      dPhi0TdsCheb = chebfun.interp1(s0(1,:),FkT(1,:),'pchip');
+      kphi = i*FkT;                             % k*phi
+      Fk_NoInvD = [FkTds;kphi+FkBds];           % F_k vector before being mutiplied by InvD
+      FkT = InvD(1,:).*Fk_NoInvD(1,:)+InvD(2,:).*Fk_NoInvD(2,:);        % mutiplying by InvD
+      FkB = InvD(3,:).*Fk_NoInvD(1,:)+InvD(4,:).*Fk_NoInvD(2,:);
+      FkTStore(i,:) = FkT;                      % storing FK values
+      FkTBtore(i,:) = FkB;
+      dPhi0TdsCheb = chebfun.interp1(s0(1,:),FkT(1,:),'pchip');   % refitting chebfuns to new F_k vector
       dPhi0BdsCheb = chebfun.interp1(s0(1,:),FkB(1,:),'pchip');
-      dPhi0Tds = dPhi0TdsCheb(gs0);
+      dPhi0Tds = dPhi0TdsCheb(gs0);                               % evaluating F_k vector at gamma(sigma)
       dPhi0Bds = dPhi0BdsCheb(gs0);
-      sumStoreT(i,:) = term1.*FkT;
-      sumStoreB(i,:) = term1.*FkB;
+      SumT(i,:) = Term1.*FkT;                   % storing for sumation
+      SumB(i,:) = Term1.*FkB;
     end
 
-    Phi_nT = Phi0T+sum(sumStoreT);
-    Phi_nB = Phi0B+sum(sumStoreB);
+    Phi_nT = Phi0T+sum(SumT);                   % computing nth order projection of phi
+    Phi_nB = Phi0B+sum(SumB);                   % computing nth order projection of psi
 
     Phi = [Phi_nT; Phi_nB];
 

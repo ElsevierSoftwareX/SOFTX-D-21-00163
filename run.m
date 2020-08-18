@@ -42,13 +42,14 @@ Xf = 10;
 
 % defining IC - chebfuns are used such that eta_prime and u_prime
 % can be defeined simply for any function
-eta_0 = chebfun(@(x) H1*exp(-c1*(x - x1).^2) - H2*exp(-c2*(x - x2).^2), [x0, Xf]);
+eta_0 = chebfun(@(x) H1*exp(-c1*(x-x1).^2)-H2*exp(-c2*(x-x2).^2), [x0, Xf]);
 %eta_0 = chebfun(@(x) 0, [x0, Xf]);
 eta_prime = diff(eta_0);
 
-u_0   = chebfun(@(x) -0.03*sin(3*x)*exp(-0.5*(x-5)^2), [x0 Xf]);
-%u_0   = chebfun(@(x) 0, [x0 Xf]);
+u_0   = chebfun(@(x) -3*sin(3*x)*exp(-0.5*(x-5)^2), [x0 Xf]);
+%u_0   = chebfun(@(x) x.^2, [x0 Xf]);
 u_prime = diff(u_0);
+
 
 td = 10.0/10.0; % slope
 g = 9.81; % gravity acceleration
@@ -65,6 +66,8 @@ k = linspace(0,70,x_res);
 la = linspace(t0,Tf*sqrt(g),t_res);
 s = linspace(0,Xf,x_res);
 
+% Checking Intial Conditions
+STOP = CheckIC();
 
 %computing solutions
 [eta_analytic u_analytic] = fast_hankel(3);
