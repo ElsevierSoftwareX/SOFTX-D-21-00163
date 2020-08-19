@@ -37,26 +37,30 @@ t0 = 0;
 Tf = 5;
 
 % doman of x
-x0 = -2;
+x0 = -1;
 Xf = 10;
 
 % defining IC - chebfuns are used such that eta_prime and u_prime
 % can be defeined simply for any function
-eta_0 = chebfun(@(x) H1*exp(-c1*(x-x1).^2)-H2*exp(-c2*(x-x2).^2), [x0, Xf]);
-%eta_0 = chebfun(@(x) 0, [x0, Xf]);
-eta_prime = diff(eta_0);
 
-u_0   = chebfun(@(x) -3*sin(3*x)*exp(-0.5*(x-5)^2), [x0 Xf]);
-%u_0   = chebfun(@(x) x.^2, [x0 Xf]);
+%for Catalina 1
+%eta_0 = chebfun(@(x) H1*exp(-c1*(x-x1).^2)-H2*exp(-c2*(x-x2).^2), [x0, Xf]);
+%u_0   = chebfun(@(x) 0, [x0 Xf]);
+
+%for non zero velocity
+eta_0 = chebfun(@(x) H1*exp(-c1*(x-x1).^2)-H2*exp(-c2*(x-x2).^2), [x0, Xf]);
+u_0   = chebfun(@(x) -0.005*sin(3*x)*exp(-0.5*(x-5)^2), [x0 Xf]);
+
+eta_prime = diff(eta_0);
 u_prime = diff(u_0);
 
 
-td = 10.0/10.0; % slope
+td = 10/10.0; % slope
 g = 9.81; % gravity acceleration
 
 
-x_res = 2000; % number of points in the x domain - also used for s and k
-t_res = 100; % number of points in the t domain - also used for lamda
+x_res = 5000; % number of points in the x domain - also used for s and k
+t_res = 500; % number of points in the t domain - also used for lamda
 
 
 %setting variables
@@ -110,30 +114,42 @@ for i = 1:t_res
   plot(x, ana(i,:) ), hold on;
   plot(x, -td*x), hold off;
   axis([x0 Xf -0.05 0.05])
-  pause(0.01);
+  pause(0.1);
 end
 
 figure(5);
 subplot(4,1,1);
 plot(x, num(1,:)), hold on;
-% plot(x, -td*x), hold on;
+plot(x, -td*x), hold on;
 plot(x, ana(1,:)), hold off;
+axis([x0 Xf -0.03 0.03]);
+xlabel('x');
+ylabel('height');
+title('t=0 (initial condition)');
+legend('Numerical', 'Bathymetry', 'Analytical');
 
 subplot(4,1,2);
-plot(x, num(20,:)), hold on;
-%plot(x, -td*x), hold on;
-plot(x, ana(20,:)), hold off;
+plot(x, num(100,:)), hold on;
+plot(x, -td*x), hold on;
+plot(x, ana(100,:)), hold off;
+axis([x0 Xf -0.03 0.03]);
+xlabel('x');
+ylabel('height');
+title('t=1 (run down)');
+legend('Numerical', 'Bathymetry', 'Analytical');
 
 subplot(4,1,3);
-plot(x, num(60,:)), hold on;
-%plot(x, -td*x), hold on;
-plot(x, ana(60,:)), hold off;
+plot(x, num(200,:)), hold on;
+plot(x, -td*x), hold on;
+plot(x, ana(200,:)), hold off;
+axis([x0 Xf -0.03 0.03]);
+xlabel('x');
+ylabel('height');
+title('t=2 (run down)');
+legend('Numerical', 'Bathymetry', 'Analytical');
 
 subplot(4,1,4);
-plot(x, stat_norm);
-
-
-
-
-figure(6);
-plot(x, stat_norm);
+plot(linspace(t0, Tf, t_res), stat_norm);
+xlabel('t');
+ylabel('L2 Norm')
+title('L2 Norm at each time')
