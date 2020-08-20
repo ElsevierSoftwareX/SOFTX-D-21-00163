@@ -8,6 +8,14 @@ addpath('IV_FVM/')
 addpath('data_projection/')
 addpath('FD_Hodograph/')
 
+%l2 norm testing
+
+%x = linspace(0,1,100);
+
+%norm(sin(x),2)/sqrt(100)
+
+%stop
+
 %%% Global variables:
 global t0 Tf x0 Xf
 global t_res x_res numSig
@@ -18,7 +26,7 @@ td = 10.0/10.0;
 
 % initial time and final time (domain of t)
 t0 = 0;
-Tf = 0.55;
+Tf = 0.3;
 
 % domain of x
 x0 = -0.1;
@@ -26,7 +34,7 @@ Xf = 10;
 
 % resolution parameters
 t_res = 200;
-x_res = 2000;
+x_res = 4000;
 numSig = 100;
 
 %% Initial condition parameters:
@@ -50,6 +58,7 @@ Psi = order_n_BC_proj(eta1, u1, 4);   % Data Projection
   figure(4);
   plot(Psi(2,:));
 
+test = [-eta1; u1/sqrt(g)];
 
 [eta_hodo, u_hodo] = HodoSolve(Psi); % hodograph Solver
 
@@ -68,14 +77,14 @@ ana = zeros(t_res, x_comp);
 t = linspace(t0, Tf, t_res);
 x = linspace(x0, 1, x_comp);
 
-for i = 1:t_res
+for i = 1:(t_res-2)
 
   ana(i,:) = eta_hodo(linspace(x0, 1, x_comp), repmat(t(i), 1, x_comp));
   num(i,:) = eta_fvm(1:x_comp, i)';
 
   %making it zero on the other side of the shore
   max = 0;
-  for j = 1:x_comp
+  for j = 1:(x_comp-10)
     if num(i, j) + td*x(j) < 0
       num(i, j) = NaN;
       max = j;
@@ -141,7 +150,7 @@ title('t=2 (run down)');
 legend('Numerical', 'Bathymetry', 'Analytical');
 
 subplot(4,1,4);
-plot(linspace(t0, Tf, t_res), stat_norm);
+plot(linspace(t0, Tf, t_res-2), stat_norm);
 xlabel('t');
 ylabel('L2 Norm')
 title('L2 Norm at each time')
