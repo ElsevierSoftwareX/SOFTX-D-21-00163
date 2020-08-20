@@ -20,7 +20,7 @@ function [eta u] = fast_hankel(n)
 
   %data_projection
   disp('    data_projection onto \lambda = 0... ');
-  proj = order_n_dp(s, n);
+  proj = order_n_dp(s);
 
   global eta_0 u_0 %for comparing with data_projection
 
