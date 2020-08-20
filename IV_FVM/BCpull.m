@@ -95,12 +95,10 @@ function [eta1, u1, eta, u] = run_num()
     tlist = linspace(t0, Tf, M);
     solpr = deval(sol, tlist);
 
-    xeq = x == 1;
-    xeq1_eta = find(xeq);
-    xeq1_u = find(xeq) + N;
+    xeq = round(x_res*(1-x0)/(Xf - x0), 0); %finding the closest index to 1 %FIXME
 
-    u1 = solpr(xeq1_u,:);
-    eta1 = solpr(xeq1_eta,:)-solpr(xeq1_eta,1); % -1 because the norm height of teh water at 1 is 1
+    eta1 = solpr(xeq,:)-solpr(xeq,1);
+    u1 = solpr(xeq+N,:); % -1 because the norm height of teh water at 1 is 1
 
     figure(1);
     plot(eta1);

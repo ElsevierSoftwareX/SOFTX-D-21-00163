@@ -37,7 +37,7 @@ t0 = 0;
 Tf = 5;
 
 % doman of x
-x0 = -1;
+x0 = -2;
 Xf = 10;
 
 % defining IC - chebfuns are used such that eta_prime and u_prime
