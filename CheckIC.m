@@ -18,25 +18,24 @@ function STOP = CheckIC()
 
     if EtaCheck>=h
       STOP = 1;
+      if STOP==1
+        error('Error in Intial Condition: Reduce Amplitude of Eta.')
+      end
     elseif EtaPrimeCheck>=1
       STOP = 2;
+      if STOP==2
+        error('Error in Intial Condition: Derivative of Eta is greater than 1 or -1.')
+      end
     elseif uCheck>=0.05
       STOP = 3;
+      if STOP==3
+        error('Error in Intial Condition: Reduce initial velocity.')
+      end
     else
       STOP = 0;
-    end
-
-    if STOP==1
-      error('Error in Intial Condition: Reduce Amplitude of Eta.')
-    end
-    if STOP==2
-      error('Error in Intial Condition: Derivative of Eta is greater than 1 or -1.')
-    end
-    if STOP==3
-      error('Error in Intial Condition: Reduce initial velocity.')
-    end
-    if STOP==0
-      STOP=0;
+      if STOP==0
+        STOP=0;
+      end
     end
   end
 end

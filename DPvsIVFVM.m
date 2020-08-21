@@ -45,6 +45,7 @@ g = 9.81;
 eta_0 = @(x) H1*exp(-c1*(x - x1).^2) - H2*exp(-c2*(x - x2).^2);
 u_0   = @(x) 0;
 
+STOP = CheckIC();
 [eta1, u1, eta_fvm, u_fvm] = BCpull();   % solution via FVM
 Psi = order_n_BC_proj(eta1, u1);   % Data Projection
 
