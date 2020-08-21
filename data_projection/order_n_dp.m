@@ -1,11 +1,11 @@
 %   ORDER N INITIAL CONDITION DATA PROJECTION
 
 
-function Phi = order_n_dp(x, n)
+function Phi = order_n_dp(x)
 
     % Global variables:
     global eta_0 u_0
-    global x_res t_res Xf g td
+    global x_res t_res Xf g td n
 
     % Initial eta and u without dimensions
     [eta0, u0] = dimensionless(eta_0(x), u_0(x));

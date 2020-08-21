@@ -1,9 +1,9 @@
 
 %   ORDER N BOUNDARY CONDITION DATA PROJECTION
 
-function Psi = order_n_BC_proj(eta1, u1, n)
+function Psi = order_n_BC_proj(eta1, u1)
 
-  global g t0 Tf t_res
+  global g t0 Tf t_res n
 
   % Parameters
   d=1;

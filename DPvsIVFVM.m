@@ -19,10 +19,13 @@ addpath('FD_Hodograph/')
 %%% Global variables:
 global t0 Tf x0 Xf
 global t_res x_res numSig
-global eta_0 u_0 g td
+global eta_0 u_0 g td n
 
 % Bottom slope:
 td = 10.0/10.0;
+
+% Order of data projection 
+n = 5; 
 
 % initial time and final time (domain of t)
 t0 = 0;
@@ -50,8 +53,9 @@ g = 9.81;
 eta_0 = @(x) H1*exp(-c1*(x - x1).^2) - H2*exp(-c2*(x - x2).^2);
 u_0   = @(x) 0;
 
+STOP = CheckIC();
 [eta1, u1, eta_fvm, u_fvm] = BCpull();   % solution via FVM
-Psi = order_n_BC_proj(eta1, u1, 4);   % Data Projection
+Psi = order_n_BC_proj(eta1, u1);   % Data Projection
 
   figure(3);
   plot(Psi(1,:));
