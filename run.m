@@ -18,8 +18,9 @@ format longE
 addpath('data_projection/');
 addpath('IV_FVM/');
 addpath('Nicolsky_2018/');
+addpath('dimension')
 
-global eta_0 eta_prime u_0 u_prime td g t0 Tf x0 Xf %physical variables
+global eta_0 eta_prime u_0 u_prime td l g t0 Tf x0 Xf %physical variables
 global x_res t_res %resolution
 global x k la s  %variables
 
@@ -55,12 +56,14 @@ eta_prime = diff(eta_0);
 u_prime = diff(u_0);
 
 
-td = 10/10.0; % slope
+%parameteres revolving around demensions
+td = 10.0/10.0; % slope
 g = 9.81; % gravity acceleration
+l = 1; %abritrary scalling parameter
 
 
-x_res = 5000; % number of points in the x domain - also used for s and k
-t_res = 500; % number of points in the t domain - also used for lamda
+x_res = 2000; % number of points in the x domain - also used for s and k
+t_res = 201; % number of points in the t domain - also used for lamda
 
 
 %setting variables

@@ -101,12 +101,10 @@ function [eta u] = fast_hankel(n)
     eta(:,i) = psi(:,i) - u(:,i).^2/2;
     xx(:,i) = r_phi(i).^2./4 - eta(:,i);
     tt(:,i) = u(:,i) + la';
-
-    %deminsionalizing
-    u(:, i) = u(:, i)*sqrt(g*td);
-    eta(:, i) = eta(:, i);
-    tt(:, i) = tt(:, i)/sqrt(td*g);
   end
+
+  %deminsionalizing
+  [eta, u, xx, tt] = dimension(eta, u, xx, tt);
 
   %to display eta and u
     %figure(5);
