@@ -21,26 +21,31 @@ function [eta u] = fast_hankel(n)
   %data_projection
   disp('    data_projection onto \lambda = 0... ');
   proj = order_n_dp(s);
+  proj1 = order1_dp(s);
 
   global eta_0 u_0 %for comparing with data_projection
 
   % plotting \phi projections
   figure(1);
   plot(s, proj(1, :)), hold on;
+  plot(s, proj1(1, :)), hold on;
   plot(s, u_0(s));
   title('$\phi$ projection', 'Interpreter','latex');
   xlabel('$\sigma$', 'Interpreter','latex');
-  legend({'1st order projection','0th order projection'},'Location','southwest');
+  legend({'3 n projection','1th order projection', 'u'},'Location','southwest');
 
 
   % plotting \psi projections
   figure(2);
   plot(s, proj(2, :)), hold on;
+  plot(s, proj1(2, :)), hold on;
   plot(s, eta_0(s)+u_0(s).^2/2), hold on;
   plot(s, eta_0(s));
   title('$\psi$ projection', 'Interpreter','latex');
   xlabel('$\sigma$', 'Interpreter','latex');
-  legend({'1st order projection','0th order projection', '$\eta_0$'}, 'Location','southwest','Interpreter','latex');
+  legend({'order 3 n dp','1th order projection', '0th', 'eta_0'}, 'Location','southwest','Interpreter','latex');
+
+  stop
 
   disp('    inverse hankel transform to compute a(k) and b(k)... ');
 
