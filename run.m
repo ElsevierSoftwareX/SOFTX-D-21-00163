@@ -24,7 +24,7 @@ global eta_0 eta_prime u_0 u_prime td l g t0 Tf x0 Xf %physical variables
 global x_res t_res %resolution
 global x k la s n %variables
 
-n = 5;            % order of data projection 
+n = 5;            % order of data projection
 disp('initializing variables ... ');
 
 H1 = 0.006;
