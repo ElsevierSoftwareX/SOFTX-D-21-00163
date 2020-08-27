@@ -34,7 +34,6 @@ function Psi = order_n_BC_proj(eta1, u1)
   Psi0T = Gamma-Lambda;                       % top component (phi)
   Psi0B = EtaGamma+0.5*(Gamma-Lambda).^2;     % bottom component (psi)
 
-
   % Interpolating Chebfuns for Psi0T and Psi0B
   Psi0TCheb = chebfun.interp1(Lambda,Psi0T,'pchip');
   Psi0BCheb = chebfun.interp1(Lambda,Psi0B,'pchip');

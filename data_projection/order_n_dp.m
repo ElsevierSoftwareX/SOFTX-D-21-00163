@@ -14,37 +14,46 @@ function Phi = order_n_dp(x)
     s0 = x+eta0;
 
     % Interpolating inverse function of sigma -> gamma(sigma)
-    gs0Cheb = chebfun.interp1(s0(1,:),x(1,:), 'pchip');
-    gs0 = gs0Cheb(x(1,:));      % evaluating at x
+    gs0 = interp1(s0,x,x);
+
+    gs0(1) = 0;
 
     % Interpolating u0(x) and eta0(x)
-    u0Cheb = chebfun.interp1(x(1,:),u0(1,:),'pchip');
-    eta0Cheb = chebfun.interp1(x(1,:),eta0(1,:),'pchip');
-    u0gs = u0Cheb(gs0);        % evaluating at gamma(sigma)
-    eta0gs = eta0Cheb(gs0);
+    u0gs = interp1(x, u0, gs0).';        % evaluating at gamma(sigma)
+    eta0gs = interp1(x, eta0, gs0).';
 
     % Interpolating sigma(u0gs) and sigma(eta0gs)
-    eta0gsCheb = chebfun.interp1(s0(1,:),eta0gs(1,:),'pchip');
-    u0gsCheb = chebfun.interp1(s0(1,:),u0gs(1,:),'pchip');
+    eta0gsCheb = chebfun(eta0gs,  [-0.5,2], 'equi');
+
+    figure(1);
+    plot(eta0gsCheb);
+
+    u0gsCheb = chebfun(u0gs,  [-0.5,2] , 'equi');
 
     % Creating Phi0 vector
-    Phi0Cheb = [u0gsCheb eta0gsCheb+0.5*u0gsCheb.^2];     % Phi0 with chebfuns
-    dPhi0dsCheb = diff(Phi0Cheb);                         % derivatives with respect to sigma
-    Phi0 = [Phi0Cheb(gs0, 1); Phi0Cheb(gs0, 2)];          % evaluating Psi0 at gamma(sigma)
-    dPhi0ds = [dPhi0dsCheb(gs0, 1); dPhi0dsCheb(gs0, 2)]; % evaluating dPsi0Tds at gamma(sigma)
+    Phi0 = [u0gsCheb eta0gsCheb+0.5*u0gsCheb.^2];     % Phi0 with chebfuns
+    dPhi0ds = diff(Phi0);                         % derivatives with respect to sigma
+
+    figure(1);
+    disp(Phi0(:,2))
+    plot(Phi0);
+
+    stop
+
 
     % Creating and inverting matrix D
     one = repelem(1,x_res);
     InvD = zeros(4,x_res);
     for i=1:x_res
-      matrixD = [one(i),dPhi0ds(1,i);s0(i)*dPhi0ds(2,i),one(i)];
+      matrixD = [one(i),dPhi0ds(1, i);s0(i)*dPhi0ds(2, i),one(i)];
       InvD = inv(matrixD);
       InvLT(1,i) = InvD(1,1);                   % left-top element
       InvRT(1,i) = InvD(1,2);                   % right-top element
       InvLB(1,i) = InvD(2,1);                   % left-bottom element
       InvRB(1,i) = InvD(2,2);                   % right-bottom element
-      InvD = [InvLT;InvRT;InvLB;InvRB];         % inverted matrix D (4xM matrix)
     end
+
+    InvD = [InvLT;InvRT;InvLB;InvRB];         % inverted matrix D (4xM matrix)
 
     % empty arrays
     Fkds = zeros(1,x_res);            % derivative
@@ -53,14 +62,15 @@ function Phi = order_n_dp(x)
     Phi_n = zeros(1,x_res);           % solution arrays
 
     % initializing FkT
-    FkT = Phi0(1,:);
+    FkT = Phi0(gs0, 1);
 
     % main loop
     for i=1:n
-      Term1 = ((Phi0(1,:)).^i)/factorial(i);        % non-recursive term
-      Fkds = dPhi0ds;                               % derivatives of F_k vector
+      disp(i);
+      Term1 = ((Phi0(gs0, 1)).^i)/factorial(i);        % non-recursive term
+      Fkds = diff(Phi0); % derivatives of F_k vector
       kphi = i*FkT;                                 % k*phi
-      Fk_NoInvD = [Fkds(1,:);kphi+Fkds(2,:)];       % F_k vector before being mutiplied by InvD
+      Fk_NoInvD = [Fkds(gs0,1) ; kphi+Fkds(gs0, 2)];       % F_k vector before being mutiplied by InvD
       Fk = [InvD(1,:).*Fk_NoInvD(1,:)+InvD(2,:).*Fk_NoInvD(2,:); InvD(3,:).*Fk_NoInvD(1,:)+InvD(4,:).*Fk_NoInvD(2,:)];       % mutiplying by InvD
       dPhi0TdsCheb = chebfun.interp1(s0(1,:),Fk(1,:),'pchip');
       dPhi0BdsCheb = chebfun.interp1(s0(1,:),Fk(2,:),'pchip');  % refitting chebfuns to new F_k vector
@@ -69,6 +79,6 @@ function Phi = order_n_dp(x)
       SumB(i,:) = Term1.*Fk(2,:);                   % storing for sumation
     end
 
-    Phi = [Phi0(1,:)+sum(SumT); Phi0(2,:)+sum(SumB)];                   % computing nth order projection of Phi
+    Phi = [Phi0(gs0, 1)+sum(SumT); Phi0(gs0, 2)+sum(SumB)];                   % computing nth order projection of Phi
 
 end

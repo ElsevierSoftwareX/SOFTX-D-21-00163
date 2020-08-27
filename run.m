@@ -51,7 +51,7 @@ Xf = 10;
 
 %for non zero velocity
 eta_0 = chebfun(@(x) H1*exp(-c1*(x-x1).^2)-H2*exp(-c2*(x-x2).^2), [x0, Xf]);
-u_0   = chebfun(@(x) -0.005*sin(3*x)*exp(-0.5*(x-5)^2), [x0 Xf]);
+u_0   = chebfun(@(x) -0.05*sin(3*x)*exp(-0.5*(x-5)^2), [x0 Xf]);
 
 eta_prime = diff(eta_0);
 u_prime = diff(u_0);
@@ -78,7 +78,7 @@ s = linspace(0,Xf,x_res);
 STOP = CheckIC();
 
 %computing solutions
-[eta_analytic u_analytic] = fast_hankel(3);
+[eta_analytic u_analytic] = fast_hankel(n);
 [eta_fvm u_fvm] = run_num();
 
 
