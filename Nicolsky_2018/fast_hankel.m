@@ -19,7 +19,7 @@ function [eta u] = fast_hankel(n)
   x_density = x_res/Xf; %used for scaleing the inverse hankel transform
 
   %data_projection
-  disp('    data_projection onto \lambda = 0... ');
+  disp('data_projection onto lambda = 0... ');
   proj = order_n_dp(s);
   proj1 = order1_dp(s);
 
@@ -44,8 +44,6 @@ function [eta u] = fast_hankel(n)
   title('$\psi$ projection', 'Interpreter','latex');
   xlabel('$\sigma$', 'Interpreter','latex');
   legend({'order 3 n dp','1th order projection', '0th', 'eta_0'}, 'Location','southwest','Interpreter','latex');
-
-  stop
 
   disp('    inverse hankel transform to compute a(k) and b(k)... ');
 

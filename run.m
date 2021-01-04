@@ -24,7 +24,7 @@ global eta_0 eta_prime u_0 u_prime td l g t0 Tf x0 Xf %physical variables
 global x_res t_res %resolution
 global x k la s n %variables
 
-n = 5;            % order of data projection
+n = 10;            % order of data projection
 disp('initializing variables ... ');
 
 H1 = 0.006;
@@ -65,7 +65,6 @@ l = 1; %abritrary scalling parameter
 
 x_res = 2000; % number of points in the x domain - also used for s and k
 t_res = 201; % number of points in the t domain - also used for lamda
-
 
 %setting variables
 x = linspace(x0,Xf,x_res);

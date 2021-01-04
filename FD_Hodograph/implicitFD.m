@@ -1,4 +1,4 @@
-%---PDE solver in Hodograph---------%
+% PDE solver in hodograph
 
 % This solver uses a finite difference method to solve
 % the NSWE in the (\sigma,\lambda) hodograph.
@@ -9,13 +9,11 @@ function [eta,u] = HodoSolve(Psi)
   global g td
   global t0 Tf t_res x_res numSig
 
-  %--------------SETUP PARAMTERS------------------%
+  % setup parameters
+  sig = linspace(0,1,numSig);           %sigma = 1 is boundary we care about
+  lam = linspace(t0,Tf*sqrt(g),t_res);  %lambda, leave at 0-10
 
-  sig = linspace(0,1,numSig); %sigma = 1 is boundary we care about
-  lam = linspace(t0,Tf*sqrt(g),t_res); %lambda, leave at 0-10
-
-  %-----------INITIALIZING---------%
-
+  % initialing
   dLam = lam(2)-lam(1);
   dSig = sig(2)-sig(1);
   courant = dLam/dSig;
@@ -23,14 +21,12 @@ function [eta,u] = HodoSolve(Psi)
   phi = zeros(t_res,numSig);
   psi = zeros(t_res,numSig);
 
-  %-------------BOUNDARY CONDITIONS------------%
-
+  % boundary conditions
   phi(:, end) = Psi(1,:);
   psi(:, end) = Psi(2,:);
   %psi_bc = -0.003*sin(4*lam);
 
-  %------------INITIAL CONDITIONS---------------%
-
+  % initial conditions
   %phi(1,:) = 0.00001*sin(sig);
   %psi(1,:) = H1*exp(-c1*(sig - x1).^2);
 
@@ -39,7 +35,7 @@ function [eta,u] = HodoSolve(Psi)
   fprintf('Please wait...\n');
   fprintf('Taking derivatives...\n')
 
-%-----------MAIN LOOP AND COURANT CONDITION------------%
+% main loop and courant condition
 
 A = zeros(2*numSig, 2*numSig);
 
@@ -62,7 +58,7 @@ end
 
 %implicit finite difference
 for i=i:t_res
-  
+
 end
 
  %---------------PLOTTING------------------%
