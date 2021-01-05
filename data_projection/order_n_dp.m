@@ -16,11 +16,11 @@ function Phi = order_n_dp(x)
     gs0(1) = 0;
 
     % Interpolating u0(x) and eta0(x)
-    u0gsCheb = chebfun.interp1(gs0, u0, 'pchip');        % evaluating at gamma(sigma)
+    u0gsCheb = chebfun.interp1(gs0, u0, 'pchip');     % evaluating at gamma(sigma)
     eta0gsCheb = chebfun.interp1(gs0, eta0, 'pchip');
 
     % Creating Phi0 vector
-    Phi0phi = u0gsCheb;                                    %separating into top and bottom (phi and psi)
+    Phi0phi = u0gsCheb;                               %separating into top and bottom (phi and psi)
     Phi0psi = eta0gsCheb+0.5*u0gsCheb.^2;
 
     % taking individual derivatives with respect to sigma
@@ -61,20 +61,20 @@ function Phi = order_n_dp(x)
     for i = 1:n
        phi_kfac = (((Phi0phi(gs0)).^i)/factorial(i));     % non-recursive term
        FkBCheb = FkB(1,:);
-       FkBCheb = chebfun.interp1(s0,FkBCheb,'pchip');       % FkB to chebfun for derivative
-       FkBdsCheb = -diff(FkBCheb);            % derivative of FkBCheb
-       FkBds(1,:) = FkBCheb(s0);              % evaluating FkBCheb for discrete s0
-       FkT_NoInvD = FkBds;                    % delta operator times FkT
-       FkB_NoInvD = -2.*FkT;                  % delta operator times FkB
+       FkBCheb = chebfun.interp1(s0,FkBCheb,'pchip');     % FkB to chebfun for derivative
+       FkBdsCheb = -diff(FkBCheb);           % derivative of FkBCheb
+       FkBds(1,:) = FkBCheb(s0);             % evaluating FkBCheb for discrete s0
+       FkT_NoInvD = FkBds;                   % delta operator times FkT
+       FkB_NoInvD = -2.*FkT;                 % delta operator times FkB
        FkT(2,:) = InvD(1,:).*FkT_NoInvD(1,:)+InvD(2,:).*FkT_NoInvD(1,:); % FkT for nth recursion
        FkB(2,:) = InvD(3,:).*FkB_NoInvD(1,:)+InvD(4,:).*FkB_NoInvD(1,:); % FkB for nth recursion
-       SumT(i,:) = phi_kfac.*FkT(2,:);           % storing for later sumation
-       SumB(i,:) = phi_kfac.*FkB(2,:);           % storing for later sumation
-       FkT(2,:) = FkT(1,:);                      % preparing FkT array for next n
-       FkB(2,:) = FkB(1,:);                      % preparing FkB array for next n
+       SumT(i,:) = phi_kfac.*FkT(2,:);       % storing for later sumation
+       SumB(i,:) = phi_kfac.*FkB(2,:);       % storing for later sumation
+       FkT(2,:) = FkT(1,:);                  % preparing FkT array for next n
+       FkB(2,:) = FkB(1,:);                  % preparing FkB array for next n
     end
 
     Phi_n(1,:) = Phi0phi(s0)+sum(SumT);
     Phi_n(2,:) = Phi0psi(s0)+sum(SumB);
-    Phi = [Phi_n(1,:);Phi_n(2,:)];
-  end
+    Phi = [Phi_n(1,:);Phi_n(2,:)];           % Phi_n
+end

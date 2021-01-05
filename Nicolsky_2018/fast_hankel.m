@@ -12,38 +12,17 @@ function [eta u] = fast_hankel(n)
 
   disp('analytic solution... ');
 
-  global x k la s  %variables
-  global x_res t_res Xf g td %resolution
+  global x k la s                   %variables
+  global x_res t_res Xf g td        %resolution
+  global eta_0 u_0
+  global proj_phi proj_psi proj1_phi proj1_psi aofk bofk
 
+  x_density = x_res/Xf;   % used for scaleing the inverse hankel transform
 
-  x_density = x_res/Xf; %used for scaleing the inverse hankel transform
-
-  %data_projection
-  disp('data_projection onto lambda = 0... ');
+  % data_projection
+  disp('    data_projection onto lambda = 0... ');
   proj = order_n_dp(s);
   proj1 = order1_dp(s);
-
-  global eta_0 u_0 %for comparing with data_projection
-
-  % plotting \phi projections
-  figure(1);
-  plot(s, proj(1, :)), hold on;
-  plot(s, proj1(1, :)), hold on;
-  plot(s, u_0(s));
-  title('$\phi$ projection', 'Interpreter','latex');
-  xlabel('$\sigma$', 'Interpreter','latex');
-  legend({'3 n projection','1th order projection', 'u'},'Location','southwest');
-
-
-  % plotting \psi projections
-  figure(2);
-  plot(s, proj(2, :)), hold on;
-  plot(s, proj1(2, :)), hold on;
-  plot(s, eta_0(s)+u_0(s).^2/2), hold on;
-  plot(s, eta_0(s));
-  title('$\psi$ projection', 'Interpreter','latex');
-  xlabel('$\sigma$', 'Interpreter','latex');
-  legend({'order 3 n dp','1th order projection', '0th', 'eta_0'}, 'Location','southwest','Interpreter','latex');
 
   disp('    inverse hankel transform to compute a(k) and b(k)... ');
 
@@ -52,44 +31,24 @@ function [eta u] = fast_hankel(n)
   a = 2*k.*ihat(proj(2, :) , sqrt(s), 2*k, 0)./x_density;
   b = -2*k.*ihat(proj(1, :) , sqrt(s), 2*k, 1)./x_density;
 
-  %plotting a
-  figure(3);
-  plot(k, a);
-  title('$a(k)$', 'Interpreter','latex');
-  xlabel('k', 'Interpreter','latex');
-
-  %plotting b
-  figure(4);
-  plot(k, b);
-  title('$b(k)$', 'Interpreter','latex');
-  xlabel('k', 'Interpreter','latex');
-
   disp('    fast hankel transform to compute psi and phi... ');
 
-  for i=1:t_res  %for every lambda we do a fast hankel transform
+  for i=1:t_res  % for every lambda we do a fast hankel transform
 
-    psi_freq = @(vk)  interp1(k, a , vk).*cos(la(i)*vk) + interp1(k, b , vk).*sin(la(i)*vk);
-    phi_freq = @(vk)  interp1(k, a , vk).*sin(la(i)*vk) - interp1(k, b , vk).*cos(la(i)*vk);
+    psi_freq = @(vk)  interp1(k,a,vk).*cos(la(i)*vk)+interp1(k,b,vk).*sin(la(i)*vk);
+    phi_freq = @(vk)  interp1(k,a,vk).*sin(la(i)*vk)-interp1(k,b,vk).*cos(la(i)*vk);
 
-    %fast hankel transform
+    % fast hankel transform
     [psi(i, :) r_psi] = fht(psi_freq, 30, 7, 0, 20, 15);
     [phi(i,:) r_phi] = fht(phi_freq, 30, 7, 1, 20, 15);
 
-    %scalling solution by 2*pi
+    % scalling solution by 2*pi
     psi(i, :) = psi(i, :)./(2*pi);
     phi(i, :) = r_phi.^(1/2).*phi(i, :)./(2*pi);
 
   end
 
-  r_size = size(psi); %same for phi and psi
-
-
-  %to display phi and psi
-    %figure(3);
-    %mesh(repmat(r_psi.^2./4, t_res, 1), repmat(la.', 1, r_size(2)), psi);
-
-    %figure(4);
-    %mesh(repmat(r_phi.^2./4, t_res, 1), repmat(la.', 1, r_size(2)), phi);
+  r_size = size(psi); % same for phi and psi
 
   disp('    backwards CG transform and demensionalization... ');
 
@@ -109,13 +68,6 @@ function [eta u] = fast_hankel(n)
   %deminsionalizing
   [eta, u, xx, tt] = dimension(eta, u, xx, tt);
 
-  %to display eta and u
-    %figure(5);
-    %mesh(tt,xx,eta);
-
-    %figure(5);
-    %mesh(tt,xx,u);
-
   disp('    scattered interpolation of eta and u... ');
 
   s_tt = reshape(tt, [t_res*r_size(2), 1]);
@@ -125,5 +77,13 @@ function [eta u] = fast_hankel(n)
 
   eta = scatteredInterpolant(s_xx, s_tt, s_eta);
   u = scatteredInterpolant(s_xx, s_tt, s_u);
+
+  % fitting chebfuns for plotting
+  proj_phi = chebfun.interp1(s,proj(1,:),'pchip');
+  proj_psi = chebfun.interp1(s,proj(2,:),'pchip');
+  proj1_phi = chebfun.interp1(s,proj1(1,:),'pchip');
+  proj1_psi = chebfun.interp1(s,proj1(2,:),'pchip');
+  aofk = chebfun.interp1(k,a,'pchip');
+  bofk = chebfun.interp1(k,b,'pchip');
 
 end

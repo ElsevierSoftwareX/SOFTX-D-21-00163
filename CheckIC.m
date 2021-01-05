@@ -3,6 +3,8 @@ function STOP = CheckIC()
   % Global variables
   global eta_0 eta_prime u_0 u_prime td x_res x0 Xf
 
+  disp('initializing variables ... ');
+
   % Bathymetry Function (h)
   N  = x_res;							            % number of grid points
   x  = linspace(x0, Xf, N+1)';			  % cell interfaces (the apostrophe is to transpose)
