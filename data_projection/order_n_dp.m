@@ -2,27 +2,27 @@
 function Phi = order_n_dp(x)
 
     % Global variables:
-    global eta_0 u_0
-    global x_res t_res Xf g td n
+    global eta_0 u_0 eta0 u0
+    global x_res t_res x0 Xf g td n
 
     % Initial eta and u without dimensions
     [eta0, u0] = dimensionless(eta_0(x), u_0(x));
-
+    
     % Computing sigma(x) at t=0
     s0 = x+eta0;
 
     % Interpolating inverse function of sigma -> gamma(sigma)
-    gs0 = interp1(s0,x,x);
-    gs0(1) = 0;
+    gs0 = chebfun.interp1(s0,x,'pchip');
+    gs0 = gs0(x);
 
     % Interpolating u0(x) and eta0(x)
     u0gsCheb = chebfun.interp1(gs0, u0, 'pchip');     % evaluating at gamma(sigma)
     eta0gsCheb = chebfun.interp1(gs0, eta0, 'pchip');
 
     % Creating Phi0 vector
-    Phi0phi = u0gsCheb;                               %separating into top and bottom (phi and psi)
+    Phi0phi = u0gsCheb;                               % separating into top and bottom (phi and psi)
     Phi0psi = eta0gsCheb+0.5*u0gsCheb.^2;
-
+  
     % taking individual derivatives with respect to sigma
     dPhi0phi_dsCheb = diff(u0gsCheb);
     dPhi0psi_dsCheb = diff(eta0gsCheb+0.5*u0gsCheb.^2);

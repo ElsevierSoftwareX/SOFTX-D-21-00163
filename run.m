@@ -14,7 +14,8 @@ clear
 close all
 format longE
 
-global eta_0 eta_prime u_0 u_prime td l g t0 Tf x0 Xf t % physical variables
+global eta_0 eta_prime u_0 u_prime eta0 u0 td l g       % physical variables 
+global t0 Tf x0 Xf t                                    % physical variables
 global x_res t_res                                      % grid resolution
 global x k la s n                                       % variables
 global Initial_Eta Initial_u Data_Projection a_of_k     %
@@ -24,7 +25,7 @@ global num ana stat_norm stat_norm_max
 % plotting
 Initial_Eta = 'off';
 Initial_u = 'off';
-Data_Projection = 'off';
+Data_Projection = 'on';
 a_of_k = 'off';
 b_of_k = 'off';
 L2_Norm = 'on';
@@ -32,7 +33,7 @@ Wave_Animation = 'off';
 
 
 % order of data projection
-n = 5;
+n = 10;
 
 % doman of x and t
 x0 = -2;

@@ -4,7 +4,7 @@ function plots = plotting()
   global Initial_Eta Initial_u Data_Projection a_of_k...
     b_of_k L2_Norm Wave_Animation eta_0 u_0 s n proj_phi...
     proj_psi proj1_phi proj1_psi k aofk bofk x td x0 Xf t0...
-    Tf t t_res stat_norm num ana stat_norm_max
+    Tf t t_res stat_norm num ana stat_norm_max eta0 u0
 
   cnt = 1;   % figure counter
 
@@ -37,7 +37,7 @@ function plots = plotting()
     figure(cnt);
     plot(proj_phi), hold on;
     plot(proj1_phi), hold on;
-    plot(s, u_0(s));
+    plot(x, u0(x));
     title('Projection of $\varphi_0$', 'Interpreter','latex');
     xlabel('$\sigma$', 'Interpreter','latex');
     ylabel('$\varphi$', 'Interpreter','latex');
@@ -48,7 +48,7 @@ function plots = plotting()
     figure(cnt)
     plot(proj_psi), hold on;
     plot(proj1_psi), hold on;
-    plot(s, eta_0(s)+u_0(s).^2/2), hold on;
+    plot(x, eta0(x)+u0(x).^2/2), hold on;
     title('Projection of $\psi_0$', 'Interpreter','latex');
     xlabel('$\sigma$', 'Interpreter','latex');
     ylabel('$\psi_n$', 'Interpreter','latex');

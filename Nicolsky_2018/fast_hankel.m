@@ -14,7 +14,7 @@ function [eta u] = fast_hankel(n)
 
   global x k la s                   %variables
   global x_res t_res Xf g td        %resolution
-  global eta_0 u_0
+  global eta_0 u_0 eta0 u0
   global proj_phi proj_psi proj1_phi proj1_psi aofk bofk
 
   x_density = x_res/Xf;   % used for scaleing the inverse hankel transform
