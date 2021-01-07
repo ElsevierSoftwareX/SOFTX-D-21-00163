@@ -10,28 +10,38 @@
 
 function [eta u] = fast_hankel(n)
 
-  disp('analytic solution... ');
+  tStart = tic;
+  fprintf('\n')
+  disp('Analytic Solution:');
 
-  global x k la s                   %variables
-  global x_res t_res Xf g td        %resolution
-  global eta_0 u_0 eta0 u0
-  global proj_phi proj_psi proj1_phi proj1_psi aofk bofk
+  % global variables 
+  global Xf x_res t_res k la s proj_phi proj_psi proj1_phi...
+   proj1_psi aofk bofk
 
   x_density = x_res/Xf;   % used for scaleing the inverse hankel transform
 
   % data_projection
-  disp('    data_projection onto lambda = 0... ');
+  display = fprintf('   Projecting data onto lambda = 0.');
   proj = order_n_dp(s);
   proj1 = order1_dp(s);
 
-  disp('    inverse hankel transform to compute a(k) and b(k)... ');
+  fprintf(repmat('\b',1,display));
+  display = fprintf('   Inverse hankel transfrom to compute a(k) and b(k).');
 
   % for the analytic solution to work properly both a and b need to be very
   % close to zero at the end of the domain of k
-  a = 2*k.*ihat(proj(2, :) , sqrt(s), 2*k, 0)./x_density;
-  b = -2*k.*ihat(proj(1, :) , sqrt(s), 2*k, 1)./x_density;
 
-  disp('    fast hankel transform to compute psi and phi... ');
+  if n == 1
+    a = 2*k.*ihat(proj1(2, :) , sqrt(s), 2*k, 0)./x_density;
+    b = -2*k.*ihat(proj1(1, :) , sqrt(s), 2*k, 1)./x_density;
+  else
+    a = 2*k.*ihat(proj(2, :) , sqrt(s), 2*k, 0)./x_density;
+    b = -2*k.*ihat(proj(1, :) , sqrt(s), 2*k, 1)./x_density;
+  end
+
+
+  fprintf(repmat('\b',1,display));
+  display = fprintf('   Fast hankel transform to compute psi and phi.');
 
   for i=1:t_res  % for every lambda we do a fast hankel transform
 
@@ -50,7 +60,8 @@ function [eta u] = fast_hankel(n)
 
   r_size = size(psi); % same for phi and psi
 
-  disp('    backwards CG transform and demensionalization... ');
+  fprintf(repmat('\b',1,display));
+  display = fprintf('   Backwards CG transform and dimensionalization.');
 
   eta = zeros(t_res, r_size(2));
   u = zeros(t_res, r_size(2));
@@ -68,7 +79,8 @@ function [eta u] = fast_hankel(n)
   %deminsionalizing
   [eta, u, xx, tt] = dimension(eta, u, xx, tt);
 
-  disp('    scattered interpolation of eta and u... ');
+  fprintf(repmat('\b',1,display));
+  display = fprintf('   Scattered Interpolation of eta and u.');
 
   s_tt = reshape(tt, [t_res*r_size(2), 1]);
   s_xx = reshape(xx, [t_res*r_size(2), 1]);
@@ -85,5 +97,9 @@ function [eta u] = fast_hankel(n)
   proj1_psi = chebfun.interp1(s,proj1(2,:),'pchip');
   aofk = chebfun.interp1(k,a,'pchip');
   bofk = chebfun.interp1(k,b,'pchip');
+
+  tEnd = toc(tStart);
+  fprintf(repmat('\b',1,display));
+  display = fprintf('   Computation time: %0.4f \n \n', tEnd);
 
 end

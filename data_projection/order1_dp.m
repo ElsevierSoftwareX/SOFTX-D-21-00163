@@ -1,7 +1,7 @@
 
 %   ORDER 1 INITIAL CONDITION DATA PROJECTION
 %
-% We use the explicit 1st order expansion of the data projection algorethem that
+% Explicit 1st order expansion of the data projection algorithm that
 % that is in Nicolsky et. al 2018
 %
 % Refernce = [Nicolsky et. al 2018]

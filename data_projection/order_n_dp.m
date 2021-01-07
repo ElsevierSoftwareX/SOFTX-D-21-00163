@@ -7,7 +7,7 @@ function Phi = order_n_dp(x)
 
     % Initial eta and u without dimensions
     [eta0, u0] = dimensionless(eta_0(x), u_0(x));
-    
+
     % Computing sigma(x) at t=0
     s0 = x+eta0;
 
@@ -22,8 +22,8 @@ function Phi = order_n_dp(x)
     % Creating Phi0 vector
     Phi0phi = u0gsCheb;                               % separating into top and bottom (phi and psi)
     Phi0psi = eta0gsCheb+0.5*u0gsCheb.^2;
-  
-    % taking individual derivatives with respect to sigma
+
+    % Taking individual derivatives with respect to sigma
     dPhi0phi_dsCheb = diff(u0gsCheb);
     dPhi0psi_dsCheb = diff(eta0gsCheb+0.5*u0gsCheb.^2);
     dPhi0phi_ds = dPhi0phi_dsCheb(s0);
@@ -44,7 +44,7 @@ function Phi = order_n_dp(x)
     end
     InvD = [InvLT;InvRT;InvLB;InvRB];         % assembling inverted matrix D (4xM matrix)
 
-    % empty arrays
+    % Empty arrays
     SumT = zeros(n,x_res);            % storing sum for each K value
     SumB = zeros(n,x_res);            % storing sum for each K value
     Phi_n = zeros(2,x_res);           % solution arrays

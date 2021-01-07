@@ -14,26 +14,24 @@ clear
 close all
 format longE
 
-global eta_0 eta_prime u_0 u_prime eta0 u0 td l g       % physical variables 
+global eta_0 eta_prime u_0 u_prime td l g               % physical variables
 global t0 Tf x0 Xf t                                    % physical variables
 global x_res t_res                                      % grid resolution
 global x k la s n                                       % variables
-global Initial_Eta Initial_u Data_Projection a_of_k     %
-global b_of_k Time_Frames L2_Norm Wave_Animation
-global num ana stat_norm stat_norm_max
+global eta_analytic eta_fvm                             % post processing/stats
 
 % plotting
 Initial_Eta = 'off';
 Initial_u = 'off';
-Data_Projection = 'on';
+Data_Projection = 'off';
 a_of_k = 'off';
 b_of_k = 'off';
 L2_Norm = 'on';
-Wave_Animation = 'off';
+Wave_Animation = 'on';
 
 
 % order of data projection
-n = 10;
+n = 1;
 
 % doman of x and t
 x0 = -2;
@@ -42,8 +40,8 @@ t0 = 0;
 Tf = 5;
 
 % setting resolution
-x_res = 500;     % number of points in the x domain - also used for s and k
-t_res = 201;      % number of points in the t domain - also used for lamda
+x_res = 500;      % number of points in the x domain - also used for s and k
+t_res = 200;      % number of points in the t domain - also used for lamda
 
 % intial wave function parameters
 H1 = 0.006;
@@ -60,8 +58,8 @@ eta_prime = diff(eta_0);
 u_prime = diff(u_0);
 
 
-% bathymetry and 'wolrd' parameters
-td = 10.0/10.0;     % slope of beach
+% bathymetry and 'world' parameters
+td = 0.5;           % slope of beach
 g = 9.81;           % gravity acceleration
 l = 1;              % abritrary scalling parameter
 
@@ -80,29 +78,7 @@ STOP = CheckIC();
 [eta_fvm u_fvm] = run_num();
 
 %post processing
-num = zeros(t_res, x_res);
-ana = zeros(t_res, x_res);
+stats = stat_norm();
 
-for i = 1:t_res
-
-  ana(i,:) = eta_analytic(x, repmat(t(i), 1, x_res));
-  num(i,:) = eta_fvm(:, i)';
-
-  % keeping wave above beach in plotting
-  maximum = 0;
-  for j = 1:x_res
-    if num(i, j) + td*x(j) < 0
-      num(i, j) = NaN;
-      maximum = j;
-    end
-    if ana(i,j) + td*x(j) < 0
-      ana(i,j) = NaN;
-      maximum = j;
-    end
-  end
-  stat_norm(i) = norm(ana(i, maximum+1:end) - num(i, maximum+1:end));
-end
-
-stat_norm_max = find(stat_norm == max(stat_norm));
-
-plots = plotting();
+plots = plotting(Initial_Eta, Initial_u, Data_Projection,...
+  a_of_k, b_of_k, L2_Norm, Wave_Animation);
