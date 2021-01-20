@@ -2,8 +2,9 @@
 function Phi = order_n_dp(x)
 
     % Global variables:
-    global eta_0 u_0 eta0 u0
+    global eta_0 u_0 eta0 u0 s0
     global x_res t_res x0 Xf g td n
+    global Phi0phi Phi0psi SumT SumB
 
     % Initial eta and u without dimensions
     [eta0, u0] = dimensionless(eta_0(x), u_0(x));
@@ -73,6 +74,7 @@ function Phi = order_n_dp(x)
        FkT(2,:) = FkT(1,:);                  % preparing FkT array for next n
        FkB(2,:) = FkB(1,:);                  % preparing FkB array for next n
     end
+
 
     Phi_n(1,:) = Phi0phi(s0)+sum(SumT);
     Phi_n(2,:) = Phi0psi(s0)+sum(SumB);
