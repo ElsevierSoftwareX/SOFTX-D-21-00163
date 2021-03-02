@@ -32,28 +32,23 @@ function Phi = order_n_dp(x)
     % Creating elements
     one = repelem(1,x_res);
     InvD = zeros(4,x_res);
-
+    
     % Inverting the Matrix D
     for i=1:x_res
       matrixD = [one(i) dPhi0phi_ds(i);s0(i).*dPhi0phi_ds(i) one(i)];
-      size(matrixD);
       InvD = inv(matrixD);
       InvLT(1,i) = InvD(1,1);                   % left-top element
       InvRT(1,i) = InvD(1,2);                   % right-top element
       InvLB(1,i) = InvD(2,1);                   % left-bottom element
       InvRB(1,i) = InvD(2,2);                   % right-bottom element
     end
-    InvD = [InvLT;InvRT;InvLB;InvRB];         % assembling inverted matrix D (4xM matrix)
+    InvD = [InvLT;InvRT;InvLB;InvRB];           % assembling inverted matrix D (4xM matrix)
 
     % Empty arrays
-    SumT = zeros(n,x_res);            % storing sum for each K value
-    SumB = zeros(n,x_res);            % storing sum for each K value
-    Phi_n = zeros(2,x_res);           % solution arrays
-    FkT = zeros(2,x_res);             % storing top of F_k vector for recursion
-    FkB = zeros(2,x_res);             % storing bottom of F_k vector for recursion
-    FkBds = zeros(1,x_res);           % derivative of bottom component of Fk vector
-    FkT_NoInvD = zeros(1,x_res);
-    FkB_NoInvD = zeros(1,x_res);
+    [SumT,SumB] = deal(zeros(n,x_res));            % storing sum for each K value
+    [Phi_n,FkT,FkB] = deal(zeros(2,x_res));        % solution arrays, % storing F_k vector for recursion
+    [FkBds,FkT_NoInvD,FkB_NoInvD] = deal(zeros(1,x_res));
+
     % initializing FkT and FkB
     FkT(1,:) = Phi0phi(gs0);
     FkB(1,:) = Phi0psi(gs0);

@@ -15,14 +15,13 @@ function [eta, u] = fast_hankel(n)
   disp('Analytic Solution:');
 
   % global variables
-  global Xf x_res t_res k la s proj_phi proj_psi proj1_phi...
-   proj1_psi aofk bofk x t s0
+  global Xf x_res t_res k la s x t s0 proj0 proj1 projn
 
   x_density = x_res/Xf;   % used for scaling the inverse hankel transform
 
   % data_projection
-  display_hankel = fprintf('   Projecting data onto lambda = 0.');
-  proj = order_n_dp(s);
+  display_hankel = fprintf('   Projecting IC onto lambda = 0.');
+  projn = order_n_dp(s);
   proj0 = order_0_dp(s);
   proj1 = order1_dp(s);
 
@@ -39,8 +38,8 @@ function [eta, u] = fast_hankel(n)
     a = 2*k.*ihat(proj1(2, :) , sqrt(s), 2*k, 0)./x_density;
     b = -2*k.*ihat(proj1(1, :) , sqrt(s), 2*k, 1)./x_density;
   else
-    a = 2*k.*ihat(proj(2, :) , sqrt(s), 2*k, 0)./x_density;
-    b = -2*k.*ihat(proj(1, :) , sqrt(s), 2*k, 1)./x_density;
+    a = 2*k.*ihat(projn(2, :) , sqrt(s), 2*k, 0)./x_density;
+    b = -2*k.*ihat(projn(1, :) , sqrt(s), 2*k, 1)./x_density;
   end
 
 
@@ -93,15 +92,6 @@ function [eta, u] = fast_hankel(n)
 
   eta = scatteredInterpolant(s_xx, s_tt, s_eta);
   u = scatteredInterpolant(s_xx, s_tt, s_u);
-
-
-  % fitting chebfuns for plotting
-  proj_phi = chebfun.interp1(s,proj(1,:),'pchip');
-  proj_psi = chebfun.interp1(s,proj(2,:),'pchip');
-  proj1_phi = chebfun.interp1(s,proj1(1,:),'pchip');
-  proj1_psi = chebfun.interp1(s,proj1(2,:),'pchip');
-  aofk = chebfun.interp1(k,a,'pchip');
-  bofk = chebfun.interp1(k,b,'pchip');
 
   tEnd = toc(tStart);
   fprintf(repmat('\b',1,display_hankel));

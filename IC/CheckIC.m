@@ -1,13 +1,13 @@
 function STOP = CheckIC()
-  
+
   % global variables
   global eta_0 eta_prime u_0 u_prime td x_res x0 Xf
 
   % bathymetry Function (h)
   N  = x_res;							            % number of grid points
-  x  = linspace(x0, Xf, N+1)';			  % cell interfaces (the apostrophe is to transpose)
-  dx = x(2) - x(1);                  	% spatial grid step
-  xc = 0.5*(x(1:end-1) + x(2:end));  	% centers of cells
+  x_check = linspace(x0, Xf, N+1)';			  % cell interfaces (the apostrophe is to transpose)
+  dx = x_check(2) - x_check(1);                  	% spatial grid step
+  xc = 0.5*(x_check(1:end-1) + x_check(2:end));  	% centers of cells
   h  = td.*xc;
 
   % evaluating functions for all x
