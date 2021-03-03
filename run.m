@@ -26,7 +26,7 @@ U_3D = 'off';
 Runup = 'on';
 L2Norm = 'on';
 InitialConditions = 'off';
-DataProjection = 'on';
+DataProjection = 'off';
 
 
 % order of data projection
@@ -51,8 +51,8 @@ l = 1;              % arbitrary scaling parameter
 [x,t,k,la,s] = Initialize();
 
 % intial wave function parameters
-H1 = 0.002;
-H2 = 0.005;
+H1 = 0.006;
+H2 = 0.002;
 c1 = 0.4;
 c2 = 4.0;
 x1 = 4.00;
