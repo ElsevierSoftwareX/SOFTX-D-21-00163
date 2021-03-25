@@ -14,6 +14,9 @@ clear all
 close all
 format longE
 
+folder = fileparts(which(mfilename));
+addpath(genpath(folder));
+
 global eta_0 u_0 td l g           % physical variables
 global t0 Tf x0 Xf t x            % physical variables
 global x_res t_res                % grid resolution
