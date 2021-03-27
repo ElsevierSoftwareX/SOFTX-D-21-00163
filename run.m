@@ -14,9 +14,11 @@ clear all
 close all
 format longE
 
+addpath('Extras/') 
 folder = fileparts(which(mfilename));
-addpath(genpath(folder));
+addpath(genpath2(folder,'.git'));
 
+    
 global eta_0 u_0 td l g           % physical variables
 global t0 Tf x0 Xf t x            % physical variables
 global x_res t_res                % grid resolution
@@ -42,8 +44,8 @@ t0 = 0;
 Tf = 3.5;
 
 % setting resolution
-x_res = 10000;      % number of points in the x domain - also used for s and k
-t_res = 1000;       % number of points in the t domain - also used for lamda
+x_res = 100;      % number of points in the x domain - also used for s and k
+t_res = 10;       % number of points in the t domain - also used for lamda
 
 % bathymetry and 'world' parameters
 td = 1;           % slope of beach
@@ -78,3 +80,4 @@ STOP = CheckIC();
 
 plots = plotting(WaveAnimation, Eta_3D, U_3D, Runup, L2Norm, InitialConditions,...
   DataProjection);
+
