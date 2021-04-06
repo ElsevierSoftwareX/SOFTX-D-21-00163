@@ -14,9 +14,9 @@ Download `swe_runup` [here](https://github.com/twbf/swe_runup) and note which di
 
 For users operating within MATLAB gui:
 1. Navigate to `swe_runup` in current folder window.
-2. Right click on `swe_runup` and select `Add to Path --> Selected Folers and Subfolders`.
+2. Right click on `swe_runup` and select `Add to Path --> Selected Folders`.
 
-For users operating MATLAB from command window:
+For users operating MATLAB from terminal window:
 1. Locate directory in which `swe_runup` is located.
 2. Input
 ```Matlab
