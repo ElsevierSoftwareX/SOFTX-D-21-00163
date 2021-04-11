@@ -1,14 +1,13 @@
 # SWE Runup
 <hr/>
 Authors: Sam Delamere (1), Thomas Beuler (1), Alex Suleimani (1), Alexei Rybkin (1), Denys Dutykh (2)
-
-
-
-Affiliations: (1) University of Alaska Fairbanks, (2) University of Savoie 
+<br/>
+<br/>
+Affiliations: (1) University of Alaska Fairbanks, (2) University of Savoie
 <hr/>
 
 ### Introduction
-This software provides a fast, direct comparison of a 1-D general finite volume solution to the 1+1 shallow water equations (SWE) with a 1-D analytical solution presented by Nicolsky et al.
+This software provides a fast, direct comparison of a 1-D general finite volume solution to the 1+1 shallow water equations (SWE) with a 1-D analytical solution presented by Nicolsky et al (2018).
 
 ### Installation
 
@@ -45,7 +44,7 @@ Saving figures can be done through MATLAB's gui.
 ### Third party packages.
 Third party files included:
 - [genpath2](https://www.mathworks.com/matlabcentral/fileexchange/72791-genpath2): Adds all subfolders to path (excluding hidden files with `.git` extension).
-- [Hankel Transform](https://www.mathworks.com/matlabcentral/fileexchange/13371-hankel-transform): Computes fast/inverse fast hankel transform.
+- [Hankel Transform](https://www.mathworks.com/matlabcentral/fileexchange/13371-hankel-transform): Computes fast/inverse fast Hankel transform.
 - [Chebfun](https://www.chebfun.org/download/)
 
 ### License
@@ -55,3 +54,6 @@ This package is free and open source. See [LGPL-3.0](https://opensource.org/lice
 A full account of software functionalities and implemented methods can be found [here](link-to-paper) (link to paper).
 
 Please file any comments or concerns through the github issue tracker [here](/https://github.com/twbf/swe_runup/issues).
+
+### References
+Nicolsky, Dmitry, et al. "General initial value problem for the nonlinear shallow water equations: Runup of long waves on sloping beaches and bays." Physics Letters A 382.38 (2018): 2738-2743.
