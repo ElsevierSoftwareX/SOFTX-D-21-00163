@@ -24,12 +24,9 @@ addpath('Path/to/swe_runup/')
 savepath
 ```
 
-Users must also download Chebfun. To do so, input
-```Matlab
-unzip('https://github.com/chebfun/chebfun/archive/master.zip')
-movefile('chebfun-master', 'chebfun'), addpath(fullfile(cd,'chebfun')), savepath
-```
-into Matlab command line or follow this [link](https://www.chebfun.org) for direct download.
+Users must also download Chebfun. To do so, go to the Chebfun github repo ([here](https://github.com/chebfun/chebfun)). Follow the instructions in the Chebfun readme to install.
+
+Note: If running this code through a command line interface, make sure chebfun is in your MATLAB path.   
 
 ### Usage
 
