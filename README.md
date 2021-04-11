@@ -1,8 +1,10 @@
 # SWE Runup
 <hr/>
-Authors:
+Authors: Sam Delamere (1), Thomas Beuler (1), Alex Suleimani (1), Alexei Rybkin (1), Denys Dutykh (2)
 
-Latest Update:
+
+
+Affiliations: (1) University of Alaska Fairbanks, (2) University of Savoie 
 <hr/>
 
 ### Introduction
