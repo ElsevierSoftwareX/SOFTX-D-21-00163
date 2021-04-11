@@ -13,8 +13,9 @@ This software provides a fast, direct comparison of a 1-D general finite volume 
 Download `swe_runup` from github [here](https://github.com/twbf/swe_runup) and note which directory the folder is saved to.
 
 For users operating within MATLAB gui:
-1. Obtain directory path to `swe_runup`.
-2. If you are not running from the `swe_runup` folder, then you must add `swe_runup` to path from the gui. This can be done by right clicking on the folder and selecting `Add to Path`.
+1. Navigate to `swe_runup`.
+2. Open `run_swe_runup` and run script from editor.
+3. Alternatively, if you are not running from the `swe_runup` folder, then you must add `swe_runup` to path from the gui. This can be done by right clicking on the folder and selecting `Add to Path`.
 
 For users operating MATLAB from terminal window:
 1. Locate directory in which `swe_runup` is located.
