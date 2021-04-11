@@ -10,11 +10,11 @@ This software provides a fast, direct comparison of a 1-D general finite volume 
 
 ### Installation
 
-Download `swe_runup` [here](https://github.com/twbf/swe_runup) and note which directory the folder is saved to.
+Download `swe_runup` from github [here](https://github.com/twbf/swe_runup) and note which directory the folder is saved to.
 
 For users operating within MATLAB gui:
-1. Navigate to `swe_runup` in current folder window.
-2. Right click on `swe_runup` and select `Add to Path --> Selected Folders`.
+1. Obtain directory path to `swe_runup`.
+2. If you are not running from the `swe_runup` folder, then you must add `swe_runup` to path from the gui. This can be done by right clicking on the folder and selecting `Add to Path`.
 
 For users operating MATLAB from terminal window:
 1. Locate directory in which `swe_runup` is located.
@@ -25,11 +25,11 @@ savepath
 ```
 
 Users must also download Chebfun. To do so, input
-```bash
+```Matlab
 unzip('https://github.com/chebfun/chebfun/archive/master.zip')
 movefile('chebfun-master', 'chebfun'), addpath(fullfile(cd,'chebfun')), savepath
 ```
-into bash command line or follow this [link](https://www.chebfun.org) for direct download.
+into Matlab command line or follow this [link](https://www.chebfun.org) for direct download.
 
 ### Usage
 
