@@ -52,4 +52,4 @@ This package is free and open source. See [LGPL-3.0](https://opensource.org/lice
 ### More information
 A full account of software functionalities and implemented methods can be found [here](link-to-paper) (link to paper).
 
-Please file any comments or concerns through the github issue tracker (here)[https://github.com/twbf/swe_runup/issues].
+Please file any comments or concerns through the github issue tracker [here](/https://github.com/twbf/swe_runup/issues).
