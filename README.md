@@ -10,6 +10,10 @@ This software provides a fast, direct comparison of a 1-D general finite volume 
 
 ### Installation
 
+Users mus download Chebfun. To do so, go to the Chebfun github repo ([here](https://github.com/chebfun/chebfun)). Follow the instructions in the Chebfun readme to install.
+
+Note: If running this code through a command line interface, make sure chebfun is in your MATLAB path.
+
 Download `swe_runup` from github [here](https://github.com/twbf/swe_runup) and note which directory the folder is saved to.
 
 For users operating within MATLAB gui:
@@ -17,17 +21,11 @@ For users operating within MATLAB gui:
 2. Open `run_swe_runup` and run script from editor.
 3. Alternatively, if you are not running from the `swe_runup` folder, then you must add `swe_runup` to path from the gui. This can be done by right clicking on the folder and selecting `Add to Path`.
 
-For users operating MATLAB from terminal window:
-1. Locate directory in which `swe_runup` is located.
-2. Input
-```Matlab
-addpath('Path/to/swe_runup/')
-savepath
-```
-
-Users must also download Chebfun. To do so, go to the Chebfun github repo ([here](https://github.com/chebfun/chebfun)). Follow the instructions in the Chebfun readme to install.
-
-Note: If running this code through a command line interface, make sure chebfun is in your MATLAB path.   
+For users operating MATLAB from terminal window (macOS/linux):
+1. Add MATLAB to your PATH.
+2. Change directory path/to/swe_runup
+3. matlab -nosplash -nodesktop
+4. From the MATLAB CLI, type run_swe_runup  
 
 ### Usage
 
@@ -52,4 +50,6 @@ Third party files included:
 This package is free and open source. See [LGPL-3.0](https://opensource.org/licenses/LGPL-3.0) for more licensing information.
 
 ### More information
-A full account of software functionalities and implemented methods can be found [here](link-to-paper) (link to paper). If you have any problems or questions contact (email).
+A full account of software functionalities and implemented methods can be found [here](link-to-paper) (link to paper).
+
+Please file any comments or concerns through the github issue tracker (here)[https://github.com/twbf/swe_runup/issues].
