@@ -11,7 +11,7 @@ This software provides a fast, direct comparison of a 1-D general finite volume 
 
 ### Installation
 
-Users mus download Chebfun. To do so, go to the Chebfun github repo ([here](https://github.com/chebfun/chebfun)). Follow the instructions in the Chebfun readme to install.
+Users must download Chebfun. To do so, go to the Chebfun github repo ([here](https://github.com/chebfun/chebfun)). Follow the instructions in the Chebfun readme to install.
 
 Note: If running this code through a command line interface, make sure chebfun is in your MATLAB path.
 
