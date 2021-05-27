@@ -1,7 +1,7 @@
 # SWANS
 
 <hr/>
-Authors: Thomas Beuler (1), Sam Delamere (1), Denys Dutykh (2), Alexei Rybkin (1), Alex Suleimani (1).
+Authors: Thomas Beuler (1), Sam Delamere (2), Denys Dutykh (3), Alexei Rybkin (4), Alex Suleimani (5).
 <br/>
 <br/>
 Affiliations: (1) Columbia University, (2) Bates College, (3) University of Savoie, (4) University of Alaska Fairbanks, (5) Arizona State University.
