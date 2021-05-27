@@ -1,13 +1,14 @@
-# SWE Runup
+# SWANS
+
 <hr/>
-Authors: Sam Delamere (1), Thomas Beuler (1), Alex Suleimani (1), Alexei Rybkin (1), Denys Dutykh (2)
+Authors: Thomas Beuler (1), Sam Delamere (1), Denys Dutykh (2), Alexei Rybkin (1), Alex Suleimani (1).
 <br/>
 <br/>
-Affiliations: (1) University of Alaska Fairbanks, (2) University of Savoie
+Affiliations: (1) Columbia University, (2) Bates College, (3) University of Savoie, (4) University of Alaska Fairbanks, (5) Arizona State University.
 <hr/>
 
 ### Introduction
-This software provides a fast, direct comparison of a 1-D general finite volume solution to the 1+1 shallow water equations (SWE) with a 1-D analytical solution presented by Nicolsky et al (2018).
+SWANS (Shallow Water Analytical Numerical Solver) provides a fast, direct comparison of a 1-D general finite volume solution to the 1+1 shallow water equations (SWE) with a 1-D analytical solution presented by Nicolsky et al (2018).
 
 ### Installation
 

@@ -1,4 +1,3 @@
-
 %   GENERAL INITIAL CONDITION ANALYTIC VS NUMERICAL SOLUTION COMPARISON
 %
 % Works with a given IC on a given domain. Produces a comparison of the analytic
