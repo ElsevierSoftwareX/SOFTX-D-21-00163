@@ -43,8 +43,8 @@ t0 = 0;
 Tf = 3.5;
 
 % setting resolution
-x_res = 5000;      % number of points in the x domain - also used for s and k
-t_res = 500;       % number of points in the t domain - also used for lamda
+x_res = 1000;      % number of points in the x domain - also used for s and k
+t_res = 100;       % number of points in the t domain - also used for lamda
 
 % bathymetry and 'world' parameters
 td = 1;           % slope of beach
