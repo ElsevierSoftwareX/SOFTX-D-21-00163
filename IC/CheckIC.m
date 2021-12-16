@@ -26,7 +26,7 @@ function STOP = CheckIC()
       if STOP==2
         error('Error in Intial Condition: Derivative of Eta is greater than 1 or -1.')
       end
-    elseif uCheck>=0.05
+    elseif uCheck>=0.01*Xf
       STOP = 3;
       if STOP==3
         error('Error in Intial Condition: Reduce initial velocity.')
