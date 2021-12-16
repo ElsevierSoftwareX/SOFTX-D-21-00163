@@ -189,7 +189,7 @@ function plots = plotting(WaveAnimation, Eta_3D, U_3D, Runup, L2Norm, InitialCon
 
      subplot(4,1,4);
      plot(t,stat_norm,'k');
-     title('L2 Norm', 'Interpreter','latex','Fontsize', 14);
+     title('L2 Norm (normalized)', 'Interpreter','latex','Fontsize', 14);
      xlabel('$t$', 'Interpreter','latex','Fontsize', 14);
      ylabel('L2 Norm', 'Interpreter','latex','Fontsize', 14);
      cnt = cnt+1;
