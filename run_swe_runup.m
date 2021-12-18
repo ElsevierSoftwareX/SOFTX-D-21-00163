@@ -44,7 +44,7 @@ Tf = 3.5;
 
 % setting resolution
 x_res = 1000;      % number of points in the x domain - also used for s and k
-t_res = 100;       % number of points in the t domain - also used for lamda
+t_res = 500;       % number of points in the t domain - also used for lamda
 
 % bathymetry and 'world' parameters
 td = 1;           % slope of beach
@@ -56,11 +56,11 @@ l = 1;              % arbitrary scaling parameter
 
 % intial wave function parameters
 H1 = 0.006;
-H2 = 0.0; %0.002;
+H2 = 0.002;
 c1 = 0.4;
-c2 = 0.0; %4.0;
+c2 = 4.0;
 x1 = 4.00;
-x2 = 0.0; %1.64;
+x2 = 1.64;
 
 eta_0 = H1*exp(-c1*(x-x1).^2)-H2*exp(-c2*(x-x2).^2);
 %u_0 = 0.*x;

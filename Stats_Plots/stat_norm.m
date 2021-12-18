@@ -1,7 +1,7 @@
 function [ana, ana_u, num, num_u]= stat_norm(eta_analytic, eta_fvm, u_analytic, u_fvm)
 
   % global variables
-  global x x0 Xf x_res t t_res Tf t0 td display_stat
+  global x x0 Xf x_res t t_res g l td display_stat
   global num ana num_u ana_u runup_num_i runup_ana_i stat_norm
 
   fprintf('\n');
@@ -13,10 +13,10 @@ function [ana, ana_u, num, num_u]= stat_norm(eta_analytic, eta_fvm, u_analytic, 
 
   for i = 1:t_res
     % assigning values to empty arrays
-    ana(i,:) = eta_analytic(x, repmat(t(i), 1, x_res));
-    ana_u(i,:) = u_analytic(x, repmat(t(i), 1, x_res));
-    num(i,:) = eta_fvm(:,i)';
-    num_u(i,:) = u_fvm(:,i)';
+    ana(i,:) = eta_analytic(x, repmat(t(i), 1, x_res)).*(l*td);
+    ana_u(i,:) = u_analytic(x, repmat(t(i), 1, x_res)).*sqrt((g*td)/l);
+    num(i,:) = eta_fvm(:,i)'.*(l*td);
+    num_u(i,:) = u_fvm(:,i)'.*sqrt((g*td)/l);
     maximum = 0;
     for j = 1:x_res
       if ana(i, j) + td*x(j) < 10^(-6)   % processing eta (analytical)
