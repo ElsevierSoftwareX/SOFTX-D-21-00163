@@ -53,7 +53,7 @@ Third party files included:
 This package is free and open source. See [LGPL-3.0](https://opensource.org/licenses/LGPL-3.0) for more licensing information.
 
 ### More information
-A full account of software functionalities and implemented methods can be found [here](link-to-paper) (link to paper).
+A full account of software functionalities and implemented methods can be found [here](https://authors.elsevier.com/sd/article/S2352711022000061) (link to paper).
 
 Please file any comments or concerns through the github issue tracker [here](/https://github.com/twbf/swe_runup/issues).
 
